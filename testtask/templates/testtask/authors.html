@@ -8,7 +8,7 @@
         <p class="text-center">{{ author.first_name }}</p>
         <p class="text-center">{{ author.last_name }}</p>
         <p class="text-center">{{ author.email }}</p>
-        <a href="#">Все посты автора {{ author.username }}</a>
+        <a href="/myblog/{{ author.username }}">Все посты автора {{ author.username }}</a>
         {% if author.username != user.get_username %}
         <button>Подписаться</button>
         {% endif %}

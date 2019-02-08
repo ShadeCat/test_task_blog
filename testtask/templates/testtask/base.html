@@ -24,7 +24,7 @@
     </li>
       {% if user.is_authenticated %}
     <li class="nav-item">
-        <a class="nav-link" href="/myblog/">Мой блог</a>
+        <a class="nav-link" href="/myblog/{{ user.get_username }}">Мой блог</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="#">Лента {{ user.get_username }}</a>
