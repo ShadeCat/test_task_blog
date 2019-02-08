@@ -1,11 +1,15 @@
-{% extends "base.html" %}
+{% extends "testtask/base.html" %}
+{% block body %}
+       {% for post in posts %}
+<div class="row">
+    <div class="col"></div>
+    <div class="col">
+        <h3>{{ post.title }}</h3>
+        <h5>{{ post.created }}</h5>
+        <p>{{ post.body }}</p>
 
-{% block content %}
-    <h2>Publishers</h2>
-    <ul>
-        {% for publisher in object_list %}
-            <li>{{ publisher.name }}</li>
-        {% endfor %}
-    </ul>
-
+    </div>
+    <div class="col"></div>
+</div>
+{% endfor %}
 {% endblock %}

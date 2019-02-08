@@ -17,49 +17,25 @@ class User(AbstractUser):
     При добавлении/удалении подписки содержание ленты меняется (при
     удалении подписки пометки о "прочитанности" сохранять не нужно).
     """
-    subscribe = models.ForeignKey(
-        'testtask.Blog',
-        related_name='subscribe',
+    subscribe = models.ManyToManyField(
+        'self',
+        related_name='user',
         verbose_name='подписки',
         blank=True,
         null=True,
-        on_delete=models.PROTECT,
-
     )
     """Пользователь может помечать посты в ленте прочитанными."""
-    read = models.ForeignKey(
+    read = models.ManyToManyField(
         'testtask.Post',
-        related_name='read',
+        related_name='user',
         verbose_name='прочитано',
         blank=True,
         null=True,
-        on_delete=models.PROTECT,
     )
 
     class Meta(AbstractUser.Meta):
         verbose_name = 'пользователь'
         verbose_name_plural = 'пользователи'
-
-
-class Blog(models.Model):
-    owner = models.OneToOneField(
-        'testtask.User',
-        related_name='blog',
-        verbose_name='автор',
-        blank=False,
-        null=False,
-        on_delete=models.PROTECT,
-    )
-
-    def __str__(self):
-        return '{} блог'.format(self.owner)
-
-    class Meta:
-        verbose_name = 'блог'
-        verbose_name_plural = 'блоги'
-        ordering = (
-            'owner',
-        )
 
 
 class Post(models.Model):
@@ -74,9 +50,7 @@ class Post(models.Model):
     class Meta:
         verbose_name = 'пост'
         verbose_name_plural = 'посты'
-        ordering = (
-            'created',
-        )
+        ordering = ['-created']
 
     def __str__(self):
         return self.title
