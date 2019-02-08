@@ -1,7 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView
 from django.views import View
 from testtask.models import *
+from django.contrib.auth import logout
+from django.contrib.auth import authenticate, login
+
+
+class LoginFormPerform:
+    pass
 
 
 class IndexView(ListView):
@@ -24,4 +30,9 @@ class MyBlogView(View):
         current_user_id = User.objects.filter(username=current_user_name)[0].id
         posts = Post.objects.filter(author=current_user_id)
         return render(request, self.template, {'posts': posts, 'debug': current_user_id})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(request, '')
 

@@ -38,9 +38,6 @@ class User(AbstractUser):
 
 
 class Post(models.Model):
-    """
-    Пост в блоге — элементарная запись с заголовком, текстом и временем создания.
-    """
     created = models.DateTimeField('создан', auto_now_add=True)
     title = models.CharField('заголовок', max_length=100, unique=True)
     body = models.TextField('текст', blank=True)
