@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from pytils.translit import slugify
 
 
 class User(AbstractUser):
@@ -22,7 +23,6 @@ class User(AbstractUser):
         related_name='user',
         verbose_name='подписки',
         blank=True,
-        null=True,
     )
     """Пользователь может помечать посты в ленте прочитанными."""
     read = models.ManyToManyField(
@@ -30,7 +30,6 @@ class User(AbstractUser):
         related_name='user',
         verbose_name='прочитано',
         blank=True,
-        null=True,
     )
 
     class Meta(AbstractUser.Meta):
@@ -46,6 +45,12 @@ class Post(models.Model):
     title = models.CharField('заголовок', max_length=100, unique=True)
     body = models.TextField('текст', blank=True)
     slug = models.SlugField(editable=False, unique=True, db_index=True)
+    author = models.ForeignKey(
+        related_name='post',
+        verbose_name='автор',
+        on_delete=models.PROTECT,
+        to='testtask.User',
+    )
 
     class Meta:
         verbose_name = 'пост'
@@ -56,6 +61,8 @@ class Post(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        self.name = self.title.strip()
+        self.slug = slugify(self.title)
         """
         При добавлении поста в ленту — подписчики получают почтовое уведомление со
         ссылкой на новый пост. Изменение содержания лент подписчиков (и рассылка уведомлений) д

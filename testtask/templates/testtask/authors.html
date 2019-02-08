@@ -1,0 +1,19 @@
+{% extends "testtask/base.html" %}
+{% block body %}
+       {% for author in authors %}
+<div class="row">
+    <div class="col"></div>
+    <div class="col">
+        <h3 class="text-center">{{ author.username }}</h3>
+        <p class="text-center">{{ author.first_name }}</p>
+        <p class="text-center">{{ author.last_name }}</p>
+        <p class="text-center">{{ author.email }}</p>
+        <a href="#">Все посты автора {{ author.username }}</a>
+        {% if author.username != user.get_username %}
+        <button>Подписаться</button>
+        {% endif %}
+    </div>
+    <div class="col"></div>
+</div>
+{% endfor %}
+{% endblock %}

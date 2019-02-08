@@ -4,6 +4,8 @@ from django.urls import path
 from testtask.views import *
 
 urlpatterns = [
+    path('', IndexView.as_view()),
     path('admin/', admin.site.urls),
-    path('index/', IndexView.as_view())
+    path('myblog/', MyBlogView.as_view()),
+    path('authors/', AuthorsView.as_view()),
 ]
