@@ -1,0 +1,80 @@
+[
+  {
+    "model": "testtask.User",
+    "pk": 2,
+    "fields": {
+      "username": "Doc",
+      "first_name": "Иван",
+      "last_name": "Овнов",
+      "email": "ivanovnov@mail.ru",
+      "password": "pbkdf2_sha256$120000$FGwhX1181xgc$oShqYSorfi8YTSGV7jIGZ3nVzyr7dnJNgxUDi71dMi0="
+    }
+  },
+
+  {
+    "model": "testtask.User",
+    "pk": 3,
+    "fields": {
+      "username": "Basful",
+      "first_name": "Григорий",
+      "last_name": "Петрович",
+      "email": "ivanovnov@mail.ru",
+      "password": "pbkdf2_sha256$120000$FGwhX1181xgc$oShqYSorfi8YTSGV7jIGZ3nVzyr7dnJNgxUDi71dMi0="
+    }
+  },
+    {
+    "model": "testtask.User",
+    "pk": 4,
+    "fields": {
+      "username": "Sneezy",
+      "first_name": "Василий",
+      "last_name": "Петрович",
+      "email": "ivanovnov@mail.ru",
+      "password": "pbkdf2_sha256$120000$FGwhX1181xgc$oShqYSorfi8YTSGV7jIGZ3nVzyr7dnJNgxUDi71dMi0="
+    }
+  },
+    {
+    "model": "testtask.User",
+    "pk": 5,
+    "fields": {
+      "username": "Happy",
+      "first_name": "Григорий",
+      "last_name": "Палыч",
+      "email": "ivanovnov@mail.ru",
+      "password": "pbkdf2_sha256$120000$FGwhX1181xgc$oShqYSorfi8YTSGV7jIGZ3nVzyr7dnJNgxUDi71dMi0="
+    }
+  },
+    {
+    "model": "testtask.User",
+    "pk": 6,
+    "fields": {
+      "username": "Dopey",
+      "first_name": "Илья",
+      "last_name": "Овнов",
+      "email": "ivanovnov@mail.ru",
+      "password": "pbkdf2_sha256$120000$FGwhX1181xgc$oShqYSorfi8YTSGV7jIGZ3nVzyr7dnJNgxUDi71dMi0="
+    }
+  },
+    {
+    "model": "testtask.User",
+    "pk": 7,
+    "fields": {
+      "username": "Sleepy",
+      "first_name": "Василий",
+      "last_name": "Пупкин",
+      "email": "ivanovnov@mail.ru",
+      "password": "pbkdf2_sha256$120000$FGwhX1181xgc$oShqYSorfi8YTSGV7jIGZ3nVzyr7dnJNgxUDi71dMi0="
+    }
+  },
+    {
+    "model": "testtask.User",
+    "pk": 8,
+    "fields": {
+      "username": "Grumpy",
+      "first_name": "Аристрах",
+      "last_name": "Никадим",
+      "email": "ivanovnov@mail.ru",
+      "password": "pbkdf2_sha256$120000$FGwhX1181xgc$oShqYSorfi8YTSGV7jIGZ3nVzyr7dnJNgxUDi71dMi0="
+    }
+  }
+]

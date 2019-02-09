@@ -6,7 +6,6 @@ from django.urls import reverse
 
 
 class User(AbstractUser):
-
     subscribe = models.ManyToManyField(
         'self',
         related_name='user',
@@ -47,14 +46,14 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         addressees = User.objects.filter(subscribe=self.author)
-#        for addressee in addressees:
-#            send_mail(
-#                'Новый пост!',
-#                'Пользователь ' + str(self.author) +
-#                'опубликовал новый пост. Вы можете увидеть его в своей ленте' +
-#                settings.DEFAULT_DOMAIN + str((reverse('private_blog', kwargs={'author': self.author}))),
-#                settings.EMAIL_ADDRESS,
-#                [addressee.email],
-#                fail_silently=False,
-#            )
+        #        for addressee in addressees:
+        #            send_mail(
+        #                'Новый пост!',
+        #                'Пользователь ' + str(self.author) +
+        #                'опубликовал новый пост. Вы можете увидеть его в своей ленте' +
+        #                settings.DEFAULT_DOMAIN + str((reverse('private_blog', kwargs={'author': self.author}))),
+        #                settings.EMAIL_ADDRESS,
+        #                [addressee.email],
+        #                fail_silently=False,
+        #            )
         super().save(*args, **kwargs)
