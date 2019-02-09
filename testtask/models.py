@@ -4,22 +4,14 @@ from pytils.translit import slugify
 
 
 class User(AbstractUser):
-    """
 
-    У пользователя есть персональная лента новостей,
-    в которой в обратном хронологическом порядке выводятся
-    посты из блогов, на которые он подписан.
-
-    При добавлении/удалении подписки содержание ленты меняется (при
-    удалении подписки пометки о "прочитанности" сохранять не нужно).
-    """
     subscribe = models.ManyToManyField(
         'self',
         related_name='user',
         verbose_name='подписки',
         blank=True,
     )
-    """Пользователь может помечать посты в ленте прочитанными."""
+
     read = models.ManyToManyField(
         'testtask.Post',
         related_name='user',

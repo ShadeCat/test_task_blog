@@ -8,6 +8,15 @@
         <p class="text-center">{{ post.created }}</p>
         <p class="text-center">{{ post.body }}</p>
         <p class="text-center">Автор - {{ post.author }}</p>
+
+        {% if post.title in read %}
+        <p>Прочитано</p>
+        {%  else%}
+         <form method="post">{% csrf_token %}
+             <input name="read" hidden type="text" value="{{ post.pk }}">
+             <input type="submit" class="btn btn-primary align-center" value="Пометить как прочтанное">
+         </form>
+        {% endif %}
     </div>
     <div class="col"></div>
 </div>

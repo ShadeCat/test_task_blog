@@ -5,7 +5,7 @@ from testtask.models import *
 from django.contrib.auth import logout
 from testtask.forms import NewPost
 from django.http import HttpResponseRedirect
-from testtask.helpers import get_list_of_subscribers, subscribe_or_unsubscribe
+from testtask.helpers import get_list_of_subscribers, get_list_of_read, subscribe_or_unsubscribe
 
 
 class IndexView(ListView):
@@ -44,7 +44,15 @@ class LentaView(View):
         subscribed_post = Post.objects.none()
         for subscribe in subscribes:
             subscribed_post |= Post.objects.filter(author=subscribe.pk)
-        return render(request, self.template, {'posts': subscribed_post})
+        return render(request, self.template, {'posts': subscribed_post, 'read': get_list_of_read(user)})
+
+    def post(self, request):
+        readed_post_pk = request.POST.get('read', None)
+        user = str(request.user)
+        user_object = User.objects.get(username=user)
+        author_object = Post.objects.get(pk=readed_post_pk)
+        user_object.read.add(author_object)
+        return HttpResponseRedirect('/lenta/')
 
 
 class BlogWriteView(View):
