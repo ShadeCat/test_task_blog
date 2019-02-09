@@ -5,10 +5,7 @@ from testtask.models import *
 from django.contrib.auth import logout
 from testtask.forms import NewPost
 from django.http import HttpResponseRedirect
-
-
-class LoginFormPerform:
-    pass
+from testtask.helpers import get_list_of_subscribers, subscribe_or_unsubscribe
 
 
 class IndexView(ListView):
@@ -21,23 +18,11 @@ class AuthorsView(View):
     template = 'testtask/authors.html'
 
     def get(self, request):
-        current_user = request.user
         authors = User.objects.all()
-        current_users_subscribes = list(User.objects.get(username=current_user).subscribe.all())
-        current_users_subscribes = [user.username for user in current_users_subscribes]
-        return render(request, self.template, {'authors': authors, 'subscribes': current_users_subscribes})
+        return render(request, self.template, {'authors': authors, 'subscribes': get_list_of_subscribers(request.user)})
 
     def post(self, request):
-        subscribe_author = request.POST.get('subscribe', None)
-        unsubscribe_author = request.POST.get('unsubscribe', None)
-        user = str(request.user)
-        user_object = User.objects.get(username=user)
-        if subscribe_author is not None:
-            author_object = User.objects.get(username=subscribe_author)
-            user_object.subscribe.add(author_object)
-        elif unsubscribe_author is not None:
-            author_object = User.objects.get(username=unsubscribe_author)
-            user_object.subscribe.remove(author_object)
+        subscribe_or_unsubscribe(request)
         return HttpResponseRedirect('/authors/')
 
 
@@ -45,16 +30,28 @@ class MyBlogView(View):
     template = 'testtask/personal_blog.html'
 
     def get(self, request, author):
-        current_user_id = User.objects.get(username=author)[0].id
+        current_user_id = User.objects.get(username=author).id
         posts = Post.objects.filter(author=current_user_id)
         return render(request, self.template, {'posts': posts, 'author': author})
+
+
+class LentaView(View):
+    template = 'testtask/lenta.html'
+
+    def get(self, request):
+        user = request.user.get_username()
+        subscribes = User.objects.get(username=user).subscribe.all()
+        subscribed_post = Post.objects.none()
+        for subscribe in subscribes:
+            subscribed_post |= Post.objects.filter(author=subscribe.pk)
+        return render(request, self.template, {'posts': subscribed_post})
 
 
 class BlogWriteView(View):
 
     def post(self, request):
         author = request.user.get_username()
-        author_id = User.objects.filter(username=author)[0].id
+        author_id = User.objects.get(username=author).id
         form = NewPost(request.POST)
         if form.is_valid():
             Post.objects.create(title=form.title, body=form.body, author=author_id)
@@ -74,7 +71,7 @@ def post_new(request):
             return HttpResponseRedirect('/')
     else:
         form = NewPost()
-    return render(request, 'newpost.html', {'form': form})
+    return render(request, 'testtask/newpost.html', {'form': form})
 
 
 def logout_view(request):

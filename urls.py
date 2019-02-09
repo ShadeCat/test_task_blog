@@ -11,4 +11,5 @@ urlpatterns = [
     path('log_out/', logout_view),
     path('accounts/', include('django.contrib.auth.urls')),
     path('newpost/', post_new, name='new_post'),
+    path('lenta/', LentaView.as_view()),
 ]
