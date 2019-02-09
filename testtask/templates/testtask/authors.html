@@ -11,9 +11,16 @@
         <a href="/myblog/{{ author.username }}">Все посты автора {{ author.username }}</a>
 
         {% if author.username != user.get_username %}
+
+
         <form method="post">{% csrf_token %}
-            <input name="author" hidden type="text" value="{{ author.username }}">
-        <input type="submit" class="btn btn-primary align-center" value="Подписаться">
+            {% if author.username in subscribes %}
+                <input name="unsubscribe" hidden type="text" value="{{ author.username }}">
+                <input type="submit" class="btn btn-primary align-center" value="Отписаться">
+            {% else %}
+                <input name="subscribe" hidden type="text" value="{{ author.username }}">
+                <input type="submit" class="btn btn-primary align-center" value="Подписаться">
+            {% endif %}
         </form>
         {% endif %}
 

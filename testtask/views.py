@@ -17,18 +17,27 @@ class IndexView(ListView):
     template_name = 'testtask/news.html'
 
 
-class AuthorsView(ListView):
-    model = User
-    context_object_name = 'authors'
-    template_name = 'testtask/authors.html'
+class AuthorsView(View):
+    template = 'testtask/authors.html'
+
+    def get(self, request):
+        current_user = request.user
+        authors = User.objects.all()
+        current_users_subscribes = list(User.objects.get(username=current_user).subscribe.all())
+        current_users_subscribes = [user.username for user in current_users_subscribes]
+        return render(request, self.template, {'authors': authors, 'subscribes': current_users_subscribes})
 
     def post(self, request):
-        author = request.POST.get('author', '')
+        subscribe_author = request.POST.get('subscribe', None)
+        unsubscribe_author = request.POST.get('unsubscribe', None)
         user = str(request.user)
-        author_object = User.objects.get(username=author)
         user_object = User.objects.get(username=user)
-        user_object.subscribe.add(author_object)
-
+        if subscribe_author is not None:
+            author_object = User.objects.get(username=subscribe_author)
+            user_object.subscribe.add(author_object)
+        elif unsubscribe_author is not None:
+            author_object = User.objects.get(username=unsubscribe_author)
+            user_object.subscribe.remove(author_object)
         return HttpResponseRedirect('/authors/')
 
 
@@ -36,7 +45,7 @@ class MyBlogView(View):
     template = 'testtask/personal_blog.html'
 
     def get(self, request, author):
-        current_user_id = User.objects.filter(username=author)[0].id
+        current_user_id = User.objects.get(username=author)[0].id
         posts = Post.objects.filter(author=current_user_id)
         return render(request, self.template, {'posts': posts, 'author': author})
 
