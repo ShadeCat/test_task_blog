@@ -85,4 +85,3 @@ def post_new(request):
 def logout_view(request):
     logout(request)
     return redirect(request, '')
-

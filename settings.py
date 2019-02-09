@@ -6,7 +6,8 @@ SECRET_KEY = 'x8yv4=%#in2&fbk2-nx#mnk3ehha*(*duhc&cw(tgc!%odu)+b'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1']
+DEFAULT_DOMAIN = 'https://{}'.format(ALLOWED_HOSTS[0])
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -16,7 +17,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'testtask',
-    'reset_migrations',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -91,3 +92,7 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+EMAIL_ADDRESS = 'myblog@myblog.com'

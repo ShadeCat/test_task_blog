@@ -1,4 +1,4 @@
-from testtask.models import User
+from testtask.models import User, Post
 
 
 def get_list_of_subscribers(username):

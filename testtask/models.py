@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from pytils.translit import slugify
+from django.core.mail import send_mail
+import settings
+from django.urls import reverse
 
 
 class User(AbstractUser):
@@ -28,7 +30,6 @@ class Post(models.Model):
     created = models.DateTimeField('создан', auto_now_add=True)
     title = models.CharField('заголовок', max_length=100, unique=True)
     body = models.TextField('текст', blank=True)
-    slug = models.SlugField(editable=False, unique=True, db_index=True)
     author = models.ForeignKey(
         related_name='post',
         verbose_name='автор',
@@ -45,12 +46,15 @@ class Post(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.name = self.title.strip()
-        self.slug = slugify(self.title)
-        """
-        При добавлении поста в ленту — подписчики получают почтовое уведомление со
-        ссылкой на новый пост. Изменение содержания лент подписчиков (и рассылка уведомлений) д
-        олжно происходить как при стандартной публикации поста пользователем
-        через интерфейс сайта, так при добавлении/удалении поста через админку.
-        """
+        addressees = User.objects.filter(subscribe=self.author)
+#        for addressee in addressees:
+#            send_mail(
+#                'Новый пост!',
+#                'Пользователь ' + str(self.author) +
+#                'опубликовал новый пост. Вы можете увидеть его в своей ленте' +
+#                settings.DEFAULT_DOMAIN + str((reverse('private_blog', kwargs={'author': self.author}))),
+#                settings.EMAIL_ADDRESS,
+#                [addressee.email],
+#                fail_silently=False,
+#            )
         super().save(*args, **kwargs)

@@ -8,20 +8,24 @@
         <p class="text-center">{{ author.first_name }}</p>
         <p class="text-center">{{ author.last_name }}</p>
         <p class="text-center">{{ author.email }}</p>
-        <a href="/myblog/{{ author.username }}">Все посты автора {{ author.username }}</a>
 
+
+
+            <a href="/myblog/{{ author.username }}" class="btn btn-secondary btn-sm btn-block">Все посты автора {{ author.username }}</a>
+            <br>
         {% if author.username != user.get_username %}
 
 
-        <form method="post">{% csrf_token %}
+            <form method="post">{% csrf_token %}
             {% if author.username in subscribes %}
                 <input name="unsubscribe" hidden type="text" value="{{ author.username }}">
-                <input type="submit" class="btn btn-primary align-center" value="Отписаться">
+                <input type="submit" class="btn btn-secondary btn-sm btn-block" value="Отписаться">
             {% else %}
                 <input name="subscribe" hidden type="text" value="{{ author.username }}">
-                <input type="submit" class="btn btn-primary align-center" value="Подписаться">
-            {% endif %}
-        </form>
+                <input type="submit" class="btn btn-secondary btn-sm btn-block" value="Подписаться">
+                {% endif %}
+            </form>
+            <br>
         {% endif %}
 
     </div>

@@ -12,7 +12,7 @@
     <div class="col"></div>
     <div class="col">
         {% if user.get_username == author %}
-            <a class="text-center" href="/newpost">Новая запись</a>
+            <a class="btn btn-secondary btn-lg btn-block" href="/newpost">Новая запись</a>
         {% endif %}
 
        {% for post in posts %}

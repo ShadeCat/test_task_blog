@@ -10,13 +10,14 @@
         <p class="text-center">Автор - {{ post.author }}</p>
 
         {% if post.title in read %}
-        <p>Прочитано</p>
+        <p class="text-center">Прочитано</p>
         {%  else%}
          <form method="post">{% csrf_token %}
              <input name="read" hidden type="text" value="{{ post.pk }}">
-             <input type="submit" class="btn btn-primary align-center" value="Пометить как прочтанное">
+             <input type="submit" class="btn btn-secondary btn-sm btn-block" value="Пометить как прочтанное">
          </form>
         {% endif %}
+        <br>
     </div>
     <div class="col"></div>
 </div>
