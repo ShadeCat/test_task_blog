@@ -2,11 +2,16 @@
 {% extends "testtask/base.html" %}
 {% block body %}
 
-<h3 class="text-center">Блог пользователя {{ posts.0.author }}</h3>
+<h3 class="text-center">
+    Блог пользователя {{ author }}
+    {% if posts.0 == None %}
+    <p>У этого пользователя еще нет постов</p>
+    {% endif %}
+</h3>
 <div class="row">
     <div class="col"></div>
     <div class="col">
-        {% if user.get_username == posts.0.author|stringformat:"s" %}
+        {% if user.get_username == author %}
             <a class="text-center" href="/newpost">Новая запись</a>
         {% endif %}
 
@@ -18,7 +23,6 @@
     </div>
     <div class="col"></div>
     </div>
-
 
 
 {% endblock %}

@@ -22,6 +22,15 @@ class AuthorsView(ListView):
     context_object_name = 'authors'
     template_name = 'testtask/authors.html'
 
+    def post(self, request):
+        author = request.POST.get('author', '')
+        user = str(request.user)
+        author_object = User.objects.get(username=author)
+        user_object = User.objects.get(username=user)
+        user_object.subscribe.add(author_object)
+
+        return HttpResponseRedirect('/authors/')
+
 
 class MyBlogView(View):
     template = 'testtask/personal_blog.html'
@@ -29,7 +38,7 @@ class MyBlogView(View):
     def get(self, request, author):
         current_user_id = User.objects.filter(username=author)[0].id
         posts = Post.objects.filter(author=current_user_id)
-        return render(request, self.template, {'posts': posts, 'debug': current_user_id})
+        return render(request, self.template, {'posts': posts, 'author': author})
 
 
 class BlogWriteView(View):
