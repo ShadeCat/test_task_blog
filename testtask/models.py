@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.core.mail import send_mail
-import settings
-from django.urls import reverse
+
 
 
 class User(AbstractUser):
@@ -44,16 +42,3 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-    def save(self, *args, **kwargs):
-        addressees = User.objects.filter(subscribe=self.author)
-        #        for addressee in addressees:
-        #            send_mail(
-        #                'Новый пост!',
-        #                'Пользователь ' + str(self.author) +
-        #                'опубликовал новый пост. Вы можете увидеть его в своей ленте' +
-        #                settings.DEFAULT_DOMAIN + str((reverse('private_blog', kwargs={'author': self.author}))),
-        #                settings.EMAIL_ADDRESS,
-        #                [addressee.email],
-        #                fail_silently=False,
-        #            )
-        super().save(*args, **kwargs)
