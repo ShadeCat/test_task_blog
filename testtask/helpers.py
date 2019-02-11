@@ -42,15 +42,18 @@ def send_email_to_subscribers(sender, instance, signal, *args, **kwargs):
     author = instance.author
     addressees = User.objects.filter(subscribe=author)
     for addressee in addressees:
-        send_mail(
-            'Новый пост!',
-            'Пользователь ' + str(author) +
-            'опубликовал новый пост. Вы можете увидеть его в своей ленте' +
-            settings.DEFAULT_DOMAIN + str((reverse('private_blog', kwargs={'author': author}))),
-            settings.EMAIL_HOST_USER,
-            [addressee.email],
-            fail_silently=False,
-            )
+        try:
+            send_mail(
+                'Новый пост!',
+                'Пользователь ' + str(author) +
+                'опубликовал новый пост. Вы можете увидеть его в своей ленте' +
+                settings.DEFAULT_DOMAIN + str((reverse('private_blog', kwargs={'author': author}))),
+                settings.EMAIL_HOST_USER,
+                [addressee.email],
+                fail_silently=False,
+                )
+        except Exception as e:
+            print(e)
 
 
 signals.post_save.connect(send_email_to_subscribers, sender=Post)
